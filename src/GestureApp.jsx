@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Hands } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
 import { gsap } from "gsap";
-import testImage from "./assets/image.jpg";
+import testImage from "./assets/image.png";
 
 const GestureControlApp = () => {
   const videoRef = useRef(null);
@@ -58,15 +58,15 @@ const GestureControlApp = () => {
     if (prevPalmAngle !== null) {
       const angleDifference = palmAngle - prevPalmAngle;
 
-      if (Math.abs(angleDifference) > 10) { // Rotate only for significant tilt
-        const newRotation = rotationRef.current + (angleDifference > 0 ? -90 : 90);
+      if (Math.abs(angleDifference) > 5) { // Rotate only for significant tilt
+        const newRotation = rotationRef.current + (angleDifference > 0 ? -45 : 45);
         rotationRef.current = newRotation;
         setRotation(newRotation);
 
-        gsap.to("#rotatable-image", { 
-          rotation: newRotation, 
-          duration: 0.5, 
-          ease: "power2.out" 
+        gsap.to("#rotatable-image", {
+          rotation: newRotation,
+          duration: 0.5,
+          ease: "power2.out"
         });
       }
     }
@@ -74,24 +74,31 @@ const GestureControlApp = () => {
   };
 
   return (
-    <div className="flex w-full h-screen bg-gray-200 p-4">
-      {/* Left Column (Image) */}
-      <div className="w-1/2 flex justify-center items-center">
-        <img
-          id="rotatable-image"
-          src={testImage}
-          alt="Rotatable"
-          className="w-[400px] h-[400px]"
-        />
+    <div className="flex w-sreen h-screen bg-[#1f1f1f] p-[40px] flex-col items-center gap-[40px]">
+      <div className="flex flex-col items-center" >
+        <h1>React.JS + Media Pipe Package</h1>
+        <p>Fun Project : Hand Gesture Detection</p>
+        <p>GitHub:  <a href="https://github.com/proshaban">@proshaban</a></p>
       </div>
+      <div className="w-full h-full flex md:flex-row items-center gap-[40px]">
+        {/* Left Column (Image) */}
+        <div className="w-1/2 flex justify-center items-center" >
+          <img
+            id="rotatable-image"
+            src={testImage}
+            alt="Rotatable"
+            className="w-[400px] h-[400px] bg-[#1f1f1f]"
+          />
+        </div>
 
-      {/* Right Column (Webcam) */}
-      <div className="w-1/2 flex flex-col justify-center items-center">
-        <video
-          ref={videoRef}
-          className="w-full max-w-[400px] h-auto aspect-video border border-gray-700 scale-x-[-1]"
-          autoPlay
-        />
+        {/* Right Column (Webcam) */}
+        <div className="w-1/2 flex flex-col justify-center items-center">
+          <video
+            ref={videoRef}
+            className="w-full max-w-[400px] h-auto aspect-video border border-gray-700 scale-x-[-1]"
+            autoPlay
+          />
+        </div>
       </div>
     </div>
   );
